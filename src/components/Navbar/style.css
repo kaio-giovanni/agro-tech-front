@@ -1,0 +1,11 @@
+.navbar {
+    background-color: var(--primary);
+}
+
+.navbar-light .navbar-brand {
+    color: var(--white) !important ;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: var(--grayMedium) !important ;
+}
