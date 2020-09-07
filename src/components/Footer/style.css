@@ -1,14 +1,13 @@
 footer {
-    display: flex;
     width: 100%;
     max-height: 80px;
-    bottom: 0;
     margin-top: 5px;
     padding: 10px;
+    left: 0;
+    bottom: 0;
     background-color: var(--blueLight);
     color: var(--white);
-    justify-content: center;
-    align-items: center;
+    text-align: center;
 }
 
 .copyright {

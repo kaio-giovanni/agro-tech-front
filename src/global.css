@@ -10,7 +10,7 @@
   --grayLight: #F5F5F5;
   --grayMedium: #e5e5e5;
   --white: #FFFFFF;
-  --blueLight: #6BD1FF;
+  --blueLight: #5cb9dc;
   --green: #00C86F;
 }
 
@@ -18,13 +18,20 @@ body {
   margin: 0;
   padding: 0;
   outline: 0;
-  height:100%;
-  overflow-y:auto;
-  background: var(--grayMedium);
+  overflow-y: auto;
+  background: var(--white);
+}
+
+#root {
+  height: 100vh;
 }
 
 a {
   color: inherit;
+}
+
+.react-bootstrap-table-pagination-list > ul {
+  float: right;
 }
 
 code {

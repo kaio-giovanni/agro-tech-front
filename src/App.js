@@ -1,13 +1,14 @@
 import React from 'react';
-import NavbarMenu from './components/Navbar';
-import Footer from './components/Footer';
+import { BrowserRouter } from 'react-router-dom';
+import Router from './routes/router';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './global.css';
 
 function App() {
   return (
-    <>
-      <NavbarMenu />
-      <Footer />
-    </>
+    <BrowserRouter>
+      <Router />
+    </BrowserRouter>
   );
 }
 
