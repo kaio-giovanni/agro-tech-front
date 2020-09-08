@@ -18,7 +18,7 @@ body {
   margin: 0;
   padding: 0;
   outline: 0;
-  overflow-y: auto;
+  overflow: auto;
   background: var(--white);
 }
 
@@ -32,6 +32,10 @@ a {
 
 .react-bootstrap-table-pagination-list > ul {
   float: right;
+}
+
+.react-bootstrap-table {
+  overflow-x: auto;
 }
 
 code {

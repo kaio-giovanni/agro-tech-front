@@ -19,18 +19,18 @@ const RegisterMill = forwardRef((props, ref) => {
         <Form>
           <Modal.Body>
             <Form.Group controlId="formBasicEmail">
-              <Form.Control type="text" placeholder="Digite o nome da usina" />
+              <Form.Label> Usina: </Form.Label>
+              <Form.Control type="text" placeholder="Digite o nome da usina" autoComplete="off" required={true}/>
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
               Cancelar
             </Button>
-            <Button variant="primary" type="submit" onClick={handleClose}>
+            <Button variant="primary" type="submit">
               Cadastrar
             </Button>
           </Modal.Footer>
-
         </Form>
       </Modal>
     </>
