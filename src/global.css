@@ -38,6 +38,15 @@ a {
   overflow-x: auto;
 }
 
+.table-link-new {
+  margin: 3px 20px 3px 1px;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--white);
+};
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

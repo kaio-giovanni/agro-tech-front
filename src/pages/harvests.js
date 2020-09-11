@@ -1,7 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import api from '../services/api';
 import RegisterHarvest from '../components/Modal/registerHarvest';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col} from 'react-bootstrap';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BootstrapTable from 'react-bootstrap-table-next';
@@ -12,20 +13,22 @@ import { FaEye } from 'react-icons/fa';
 
 const Harvests = (props) => {
 
-    const registerRef = useRef();
+    const [mill, setMill] = useState({});
+    const [harvest, setHarvest] = useState([]);
 
-    const lista = [
-        { "id": "1", "cod": "#123115409213", "dt_start": "01/12/2020", "dt_end": "10/10/2022" },
-        { "id": "2", "cod": "#123115409213", "dt_start": "02/12/2020", "dt_end": "09/10/2022" },
-        { "id": "3", "cod": "#123115409213", "dt_start": "03/12/2020", "dt_end": "08/10/2022" },
-        { "id": "4", "cod": "#123115409213", "dt_start": "04/12/2020", "dt_end": "07/10/2022" },
-        { "id": "5", "cod": "#123115409213", "dt_start": "05/12/2020", "dt_end": "06/10/2022" },
-        { "id": "60", "cod": "#123115409213", "dt_start": "06/12/2020", "dt_end": "05/10/2022" },
-        { "id": "7", "cod": "#123115409213", "dt_start": "07/12/2020", "dt_end": "04/10/2022" },
-        { "id": "8", "cod": "#123115409213", "dt_start": "08/12/2020", "dt_end": "03/10/2022" },
-        { "id": "9", "cod": "#123115409213", "dt_start": "09/12/2020", "dt_end": "02/10/2022" },
-        { "id": "10", "cod": "#123115409213", "dt_start": "12/12/2020", "dt_end": "01/10/2022" },
-    ];
+    useEffect(() => {
+        api.get(`/mill/${props.match.params.id}/`)
+            .then(response => {
+                setMill({ mill_id: response.data.id, mill_name: response.data.name });
+                setHarvest(response.data.harvest);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+    },[props.match.params.id])
+
+    const registerRef = useRef();
 
     const GetActionFormat = (cell, row) => {
         return (
@@ -60,15 +63,6 @@ const Harvests = (props) => {
         }
     ];
 
-    const styleFiPlus = {
-        marginRight: "15px",
-        height: "30px",
-        width: "30px",
-        borderRadius: "50%",
-        background: "var(--primary)",
-        color: "var(--white)"
-    };
-
     const { SearchBar } = Search;
 
     const pagination = paginationFactory({
@@ -92,10 +86,9 @@ const Harvests = (props) => {
     return (
         <>
             <Navbar />
-            <h1 className="text-center"> Usina {props.id} </h1>
             <ToolkitProvider
                 keyField='id'
-                data={lista}
+                data={harvest}
                 columns={columns}
                 bootstrap4={true}
                 search>
@@ -103,13 +96,25 @@ const Harvests = (props) => {
                     props => (
                         <Container fluid="md">
                             <Row style={{ marginTop: "20px" }}>
+                                <Col xs={12}>
+                                    <h5 className="text-center font-weight-bold"> { mill.mill_name } </h5>
+                                </Col>
+                            </Row>
+                            <Row style={{ marginTop: "20px" }}>
                                 <Col xs={2}>
-                                    <h5> Colheitas: </h5>
+                                    <h5>Colheitas: </h5>
                                 </Col>
                                 <Col xs={10} style={{ textAlign: "right" }}>
-                                    <RegisterHarvest ref={registerRef} millName="Usina blabala" millId="2" />
-                                    <a href="./#">
-                                        <FiPlus style={styleFiPlus} onClick={() => registerRef.current.handleOpenRegister()} />
+                                    <RegisterHarvest
+                                        ref={registerRef}
+                                        mill_id={ mill.mill_id }
+                                        mill_name={ mill.mill_name } />
+                                    <a 
+                                        href="./#"
+                                        onClick={() => registerRef.current.handleOpenRegister()}
+                                        >
+                                        <FiPlus 
+                                            className="table-link-new" />
                                     </a>
                                     <SearchBar
                                         {...props.searchProps}

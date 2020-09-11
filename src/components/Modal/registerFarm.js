@@ -2,7 +2,7 @@ import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import { Button, Modal, Form, Col } from 'react-bootstrap';
 import api from '../../services/api';
 
-const RegisterHarvest = forwardRef((props, ref) => {
+const RegisterFarm = forwardRef((props, ref) => {
 
     useImperativeHandle(ref, () => ({ handleOpenRegister }));
 
@@ -12,23 +12,19 @@ const RegisterHarvest = forwardRef((props, ref) => {
     const handleClose = () => setShow(false);
 
     const [cod, setCod] = useState("");
-    const [dt_start, setDt_start] = useState("");
-    const [dt_end, setDt_end] = useState("");
+    const [name, setName] = useState("");
 
     const submitData = (event) => {
-
         event.preventDefault();
 
         const values = {
-            mill_id: props.mill_id,
+            harvest_id: props.harvest_id,
             cod,
-            dt_start,
-            dt_end
-        }
-    
-        // Validações dos campos
+            name
+        };
 
-        api.post('/register/harvest/', values)
+
+        api.post('/register/farm/', values)
           .then((response) => {
             console.log(response);
           }).catch((error) => {
@@ -37,59 +33,47 @@ const RegisterHarvest = forwardRef((props, ref) => {
 
         // fechar modal
         handleClose();
-    
-      }
+    };
 
     return (
         <>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Cadastrar Colheita</Modal.Title>
+                    <Modal.Title>Cadastrar Fazenda</Modal.Title>
                 </Modal.Header>
                 <Form onSubmit={submitData}>
                     <Modal.Body>
                         <Form.Row>
                             <Form.Group as={Col}>
-                                <Form.Label> Usina: </Form.Label>
+                                <Form.Label> Colheita: </Form.Label>
                                 <Form.Control 
                                     plaintext
-                                    readOnly 
-                                    defaultValue={props.mill_name} />
+                                    readOnly
+                                    defaultValue={props.harvest_cod}
+                                    />
                             </Form.Group>
                             <Form.Group as={Col}>
                                 <Form.Label> Código:  </Form.Label>
                                 <Form.Control 
-                                    name="cod"
                                     type="text"
-                                    placeholder="Digite o código"
+                                    placeholder="Digite o código" 
                                     autoComplete="off"
                                     value={cod}
                                     onChange={e => setCod(e.target.value)}
                                     required />
                             </Form.Group>
                         </Form.Row>
-                        <Form.Row>
-                            <Form.Group as={Col}>
-                                <Form.Label> Data de Ínicio: </Form.Label>
-                                <Form.Control 
-                                    name="dt_start"
-                                    type="date"
-                                    placeholder="Data de Ínicio"
-                                    value={dt_start}
-                                    onChange={e => setDt_start(e.target.value)}
-                                    required />
-                            </Form.Group>
-                            <Form.Group as={Col}>
-                                <Form.Label> Data de Término: </Form.Label>
-                                <Form.Control
-                                    name="dt_end"
-                                    type="date"
-                                    placeholder="Data de Término"
-                                    value={dt_end}
-                                    onChange={e => setDt_end(e.target.value)}
-                                    required />
-                            </Form.Group>
-                        </Form.Row>
+                        
+                        <Form.Group>
+                            <Form.Label> Fazenda: </Form.Label>
+                            <Form.Control 
+                                type="text"
+                                placeholder="Digite o nome da fazenda" 
+                                value={name}
+                                onChange={e => setName(e.target.value)}
+                                required/>
+                        </Form.Group>
+                    
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>
@@ -105,4 +89,4 @@ const RegisterHarvest = forwardRef((props, ref) => {
     );
 });
 
-export default RegisterHarvest;
+export default RegisterFarm;
