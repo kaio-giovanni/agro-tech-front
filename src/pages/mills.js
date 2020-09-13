@@ -2,14 +2,14 @@ import React, { useRef, useState, useEffect } from 'react';
 import api from '../services/api';
 import RegisterMill from '../components/Modal/registerMill';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import { FiPlus } from 'react-icons/fi';
-import { FaEye } from 'react-icons/fa';
+import { FaEye, FaTrashAlt } from 'react-icons/fa';
 
 const Mills = (props) => {
 
@@ -29,13 +29,30 @@ const Mills = (props) => {
 
     const GetActionFormat = (cell, row) => {
         return (
-            <div className="text-center">
+            <div className="text-center d-flex justify-content-around">
                 <Link to={`/mills/${row.id}/`} className="btn btn-outline-primary">
                     <FaEye />
                 </Link>
+                <Button variant="outline-danger" onClick={() => deleteMill(row.id)}>
+                    <FaTrashAlt />
+                </Button>
             </div>
         );
     }
+
+    const deleteMill = (id) => {
+        const confirmDel = window.confirm("Tem certeza que deseja excluir?");
+        if(confirmDel){
+            api.delete(`/mill/${id}`)
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+            window.location.reload();
+        }
+    };
 
     const columns = [
         {
@@ -44,11 +61,11 @@ const Mills = (props) => {
         },
         {
             dataField: 'name', text: 'Usinas', sort: true,
-            headerStyle: { width: '80%', textAlign: 'left' }
+            headerStyle: { width: '65%', textAlign: 'left' }
         },
         {
-            dataField: '', text: 'Visualizar', formatter: GetActionFormat,
-            headerStyle: { width: '10%', textAlign: 'center' }
+            dataField: '', text: 'Ações', formatter: GetActionFormat,
+            headerStyle: { width: '25%', textAlign: 'center' }
         }
     ];
 

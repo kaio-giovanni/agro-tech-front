@@ -2,14 +2,14 @@ import React, { useRef, useState, useEffect } from 'react';
 import api from '../services/api';
 import RegisterFarm from '../components/Modal/registerFarm';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import { FiPlus } from 'react-icons/fi';
-import { FaEye } from 'react-icons/fa';
+import { FaEye, FaTrashAlt } from 'react-icons/fa';
 
 
 const Farms = (props) => {
@@ -37,18 +37,35 @@ const Farms = (props) => {
 
     const GetActionFormat = (cell, row) => {
         return (
-            <div className="text-center">
+            <div className="text-center d-flex justify-content-around">
                 <Link to={`/farms/${row.id}/`} className="btn btn-outline-primary">
                     <FaEye />
                 </Link>
+                <Button variant="outline-danger" onClick={() => deleteFarm(row.id)}>
+                    <FaTrashAlt />
+                </Button>
             </div>
         );
     }
 
+    const deleteFarm = (id) => {
+        const confirmDel = window.confirm("Tem certeza que deseja excluir?");
+        if(confirmDel){
+            api.delete(`/farm/${id}`)
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+            window.location.reload();
+        }
+    };
+
     const columns = [
         {
             dataField: 'id', text: 'ID', sort: true,
-            headerStyle: { width: '10%', textAlign: 'left' }
+            headerStyle: { width: '5%', textAlign: 'left' }
         },
         {
             dataField: 'cod', text: 'Código', sort: true,
@@ -56,11 +73,11 @@ const Farms = (props) => {
         },
         {
             dataField: 'name', text: 'Nome',
-            headerStyle: { width: '50%', textAlign: 'left' }
+            headerStyle: { width: '40%', textAlign: 'left' }
         },
         {
-            dataField: '', text: 'Visualizar', formatter: GetActionFormat,
-            headerStyle: { width: '10%', textAlign: 'center' }
+            dataField: '', text: 'Ações', formatter: GetActionFormat,
+            headerStyle: { width: '25%', textAlign: 'center' }
         }
     ];
 
