@@ -26,13 +26,16 @@ const RegisterFarm = forwardRef((props, ref) => {
 
         api.post('/register/farm/', values)
           .then((response) => {
-            console.log(response);
+            console.log(response.data);
           }).catch((error) => {
             console.error(error);
           });
 
         // fechar modal
         handleClose();
+        
+        // refresh page
+        window.location.reload();
     };
 
     return (

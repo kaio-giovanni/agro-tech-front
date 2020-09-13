@@ -26,13 +26,16 @@ const RegisterMill = forwardRef((props, ref) => {
     // enviando os dados
     api.post('/register/mill/', values)
       .then((response) => {
-        console.log(response);
+        console.log(response.data);
       }).catch((error) => {
         console.error(error);
       });
 
     // fechar modal
     handleClose();
+
+    // refresh page
+    window.location.reload();
 
   } 
 
