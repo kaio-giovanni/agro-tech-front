@@ -33,9 +33,6 @@ const RegisterFarm = forwardRef((props, ref) => {
 
         // fechar modal
         handleClose();
-        
-        // refresh page
-        window.location.reload();
     };
 
     return (
